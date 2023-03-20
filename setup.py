@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 setup(
     name='fast1dkmeans',
     version='0.1.0',
-    packages=['fast1dkmeans', ],
+    packages=['fast1dkmeans', 'fast1dkmeans.tests'],
     author='Felix Stamm',
     author_email='felix.stamm@cssh.rwth-aachen.de',
     description='A python package for optimal 1d k-means clustering.',

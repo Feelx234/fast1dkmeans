@@ -7,10 +7,10 @@ A Python library which implements several variations of optimal *k*-means cluste
 
 There are several different ways to compute the optimal k-means clustering in 1d.
 Currently the package implements the following methods:
-- `"binary-search-interpolation"` *default* [O(n lg(U) ), O(n) space), "wilber-interpolation"]
+- `"binary-search-interpolation"` *default* [O(n lg(U) ), O(n) space, "wilber-interpolation"]
 - `"dynamic-programming-kn"` [O(kn), O(kn) space]
 - `"dynamic-programming-space"` [O(kn), O(n) space, "dp-linear"]
-- `"binary-search-normal"` [O(n lg(U) ), O(n) space), section 2.4, "wilber-binary"]
+- `"binary-search-normal"` [O(n lg(U) ), O(n) space, section 2.4, "wilber-binary"]
 
 
 
