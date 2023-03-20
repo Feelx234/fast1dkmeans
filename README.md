@@ -44,10 +44,12 @@ clusters = fast1dkmeans.cluster(x, k)
 print(clusters)   # [1, 1, 1, 0, 3, 3, 3, 2, 2, 2]
 ```
 
+Important notice: On first usage the the code is compiled once which may take about 30s. On subsequent usages this is no longer necessary and execution is much faster.
+
 Tests
 -----
 
-Tests are in [tests/](https://github.com/dstein64/kmeans1d/blob/master/tests).
+Tests are in [tests/](https://github.com/Feelx234/fast1dkmeans/blob/master/tests).
 
 ```sh
 # Run tests
