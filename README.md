@@ -1,4 +1,4 @@
-[![build](https://github.com/Feelx234/fast1dkmeans/workflows/pythonapp.yml/badge.svg)](https://github.com/Feelx234/fast1dkmeans/actions)
+[![build](https://github.com/Feelx234/fast1dkmeans/actions/workflows/pythonapp.yml/badge.svg)](https://github.com/Feelx234/fast1dkmeans/actions)
 
 fast1dkmeans
 ========
