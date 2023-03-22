@@ -29,7 +29,7 @@ def calc_objective(cumsum, cumsum2, i, j):
     result = cumsum2[j + 1] - cumsum2[i]
     result += (j - i + 1) * (mu * mu)
     result -= (2 * mu) * (cumsum[j + 1] - cumsum[i])
-    return result
+    return max(result, 0)
 
 
 

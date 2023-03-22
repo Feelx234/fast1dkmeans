@@ -5,7 +5,31 @@ from numpy.testing import assert_array_equal
 from fast1dkmeans.regularized_kmeans import calc_num_clusters, relabel_clusters, binary_search
 from fast1dkmeans.regularized_kmeans import CumsumCalculator, calc_cluster_cost_implicit, conventional_algorithm, Wilber
 
+class RegularizedBasics(unittest.TestCase):
+    def test_calc_num_clusters(self):
+        self.assertEqual(calc_num_clusters(np.array([0, 1, 1, 3, 4, 4, 4, 4])), 4)
+        self.assertEqual(calc_num_clusters(np.array([0, 0, 1, 2, 3, 4, 4, 4])), 3)
+        self.assertEqual(calc_num_clusters(np.array([0, 0, 0, 0, 0])), 1)
+        self.assertEqual(calc_num_clusters(np.arange(10)), 10)
 
+    def test_relabel_clusters(self):
+        assert_array_equal(relabel_clusters(np.array([0, 1, 1, 3, 4, 4, 4, 4])), np.array([0, 1, 1, 2, 3, 3, 3, 3]))
+        assert_array_equal(relabel_clusters(np.array([0, 0, 1, 2, 3, 4, 4, 4])), np.array([0, 0, 1, 1, 2, 2, 2, 2]))
+        assert_array_equal(relabel_clusters(np.array([0, 0, 0, 0, 0])), np.array([0, 0, 0, 0, 0]))
+        assert_array_equal(relabel_clusters(np.arange(10)), np.arange(10))
+
+        
+    def test_calc_cluster_cost_implicit(self):
+        cc = CumsumCalculator(np.array([0, 1, 3, 4], dtype=float))
+        self.assertEqual(calc_cluster_cost_implicit(np.array([0, 0, 2, 2]), cc.cumsum, cc.cumsum2), 1.0)
+
+        cc = CumsumCalculator(np.array([0, 1, 3, 4, 7, 8, 9], dtype=float))
+        self.assertEqual(calc_cluster_cost_implicit(np.array([0, 0, 2, 2, 4, 4, 4]), cc.cumsum, cc.cumsum2), 3.0)
+
+def my_test_algorithm(self, algorithm):
+    for lambda_, solution in self.lambda_input.items():
+        result = algorithm(self.arr, lambda_)
+        np.testing.assert_array_equal(solution, result, f"k={lambda_}")
 
 class RegularizedKmeans(unittest.TestCase):
     def __init__(self, *args, **kwargs):
@@ -34,17 +58,7 @@ class RegularizedKmeans(unittest.TestCase):
             1.00 : [0, 0, 0, 0, 0, 0, 0, 0]
         }
 
-    def test_calc_num_clusters(self):
-        self.assertEqual(calc_num_clusters(np.array([0, 1, 1, 3, 4, 4, 4, 4])), 4)
-        self.assertEqual(calc_num_clusters(np.array([0, 0, 1, 2, 3, 4, 4, 4])), 3)
-        self.assertEqual(calc_num_clusters(np.array([0, 0, 0, 0, 0])), 1)
-        self.assertEqual(calc_num_clusters(np.arange(10)), 10)
-
-    def test_relabel_clusters(self):
-        assert_array_equal(relabel_clusters(np.array([0, 1, 1, 3, 4, 4, 4, 4])), np.array([0, 1, 1, 2, 3, 3, 3, 3]))
-        assert_array_equal(relabel_clusters(np.array([0, 0, 1, 2, 3, 4, 4, 4])), np.array([0, 0, 1, 1, 2, 2, 2, 2]))
-        assert_array_equal(relabel_clusters(np.array([0, 0, 0, 0, 0])), np.array([0, 0, 0, 0, 0]))
-        assert_array_equal(relabel_clusters(np.arange(10)), np.arange(10))
+    
 
     def test_binary_search(self):
         for k, solution in zip(range(1, len(self.arr)+1), self.solutions):
@@ -53,16 +67,12 @@ class RegularizedKmeans(unittest.TestCase):
                 np.testing.assert_array_equal(solution, result, f"k={k} method={method}")
 
     def test_conventional_algorithm(self):
-        for lambda_, solution in self.lambda_input.items():
-            result = conventional_algorithm(self.arr, lambda_)
-            np.testing.assert_array_equal(solution, result, f"k={lambda_}")
+        my_test_algorithm(self, conventional_algorithm)
 
     def test_wilber(self):
-        for lambda_, solution in self.lambda_input.items():
-            result = Wilber(self.arr, lambda_)
-            np.testing.assert_array_equal(solution, result, f"k={lambda_}")
+        my_test_algorithm(self, Wilber)
 
-    def utest_binary_search_against_kmeans1d_library(self):
+    def test_binary_search_against_kmeans1d_library(self):
         try:
             import kmeans1d # pylint: disable=import-outside-toplevel
         except ImportError:
@@ -81,14 +91,21 @@ class RegularizedKmeans(unittest.TestCase):
                     result = binary_search(arr, k, method=method)
                     np.testing.assert_array_equal(clusters, result, f"seed={seed} k={k} n={n} method={method}")
 
-    def test_calc_cluster_cost_implicit(self):
-        cc = CumsumCalculator(np.array([0, 1, 3, 4], dtype=float))
-        self.assertEqual(calc_cluster_cost_implicit(np.array([0, 0, 2, 2]), cc.cumsum, cc.cumsum2), 1.0)
 
-        cc = CumsumCalculator(np.array([0, 1, 3, 4, 7, 8, 9], dtype=float))
-        self.assertEqual(calc_cluster_cost_implicit(np.array([0, 0, 2, 2, 4, 4, 4]), cc.cumsum, cc.cumsum2), 3.0)
+class RegularizedKmeansTestRepeated(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.arr = np.array([1, 1, 1, 1.1, 5, 5, 5])
 
+        self.lambda_input = {
+            0.00 : [0, 0, 0, 3, 4, 4, 4],
+            0.10 : [0, 0, 0, 0, 4, 4, 4],
+        }
+    def test_conventional_algorithm(self):
+        my_test_algorithm(self, conventional_algorithm)
 
+    def test_wilber(self):
+        my_test_algorithm(self, Wilber)
 
 from fast1dkmeans.tests.utils_for_test import remove_from_class, restore_to_class  # pylint: disable=wrong-import-position
 
