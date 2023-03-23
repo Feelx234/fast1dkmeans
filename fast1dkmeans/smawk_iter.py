@@ -11,7 +11,7 @@ def reduce_iter(rows, cols, calculator, col_buffer):
 
     m = len(rows)
     S = col_buffer
-    S[0]=0
+    S[0]=cols[0]
     r = 0
     for k in cols:
         if k != S[r]:

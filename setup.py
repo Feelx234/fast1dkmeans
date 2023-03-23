@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name='fast1dkmeans',
-    version='0.1.1',
+    version='0.1.2',
     packages=['fast1dkmeans', 'fast1dkmeans.tests'],
     author='Felix Stamm',
     author_email='felix.stamm@cssh.rwth-aachen.de',
