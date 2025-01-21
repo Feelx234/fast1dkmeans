@@ -1,4 +1,5 @@
-[![build](https://github.com/Feelx234/fast1dkmeans/actions/workflows/pythonapp.yml/badge.svg)](https://github.com/Feelx234/fast1dkmeans/actions)
+[![build](https://github.com/Feelx234/fast1dkmeans/actions/workflows/ci.yaml/badge.svg)](https://github.com/Feelx234/fast1dkmeans/actions)
+[![Coverage Status](https://coveralls.io/repos/github/Feelx234/fast1dkmeans/badge.svg)](https://coveralls.io/github/Feelx234/fast1dkmeans)
 
 fast1dkmeans
 ========
@@ -19,7 +20,7 @@ The code is written in Python and relies on the [numba](https://numba.pydata.org
 Requirements
 ------------
 
-*fast1dkmeans* relies on `numpy` and `numba` which currently support python 3.8-3.10.
+*fast1dkmeans* relies on `numpy` and `numba` and is tested on python 3.9-3.11.
 
 Installation
 ------------
