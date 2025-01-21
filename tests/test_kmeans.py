@@ -40,7 +40,7 @@ class TestKMeans(unittest.TestCase):
             np.testing.assert_array_equal(solution, result, f"k={k}")
 
 
-from fast1dkmeans.tests.utils_for_test import (
+from fast1dkmeans.utils_for_test import (
     remove_from_class,
     restore_to_class,
 )  # pylint: disable=wrong-import-position

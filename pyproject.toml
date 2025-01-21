@@ -62,7 +62,13 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "pass",
 ]
-omit = ["fast1dkmeans/tests/*"]
+omit = [
+    "tests/*",
+    "src/fast1dkmeans/monge.py",
+    "src/fast1dkmeans/old_classes.py",
+    "src/fast1dkmeans/utils.py",
+    "src/fast1dkmeans/utils_for_test.py",
+]
 
 
 [tool.flake8]

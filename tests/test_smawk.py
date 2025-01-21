@@ -24,7 +24,7 @@ class TestSMAWK(unittest.TestCase):
         assert_array_equal(solution, smawk_array(test_arr))
 
 
-from fast1dkmeans.tests.utils_for_test import (
+from fast1dkmeans.utils_for_test import (
     remove_from_class,
     restore_to_class,
 )  # pylint: disable=wrong-import-position

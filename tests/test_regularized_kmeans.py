@@ -149,7 +149,7 @@ class RegularizedKmeansTestRepeated(unittest.TestCase):
         my_test_algorithm(self, Wilber)
 
 
-from fast1dkmeans.tests.utils_for_test import (
+from fast1dkmeans.utils_for_test import (
     remove_from_class,
     restore_to_class,
 )  # pylint: disable=wrong-import-position
