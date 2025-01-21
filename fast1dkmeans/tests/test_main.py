@@ -4,6 +4,7 @@ import numpy as np
 from numpy.testing import assert_array_equal
 from fast1dkmeans.main import undo_argsort, undo_argsort_numba, cluster
 
+
 def get_random_arr(seed, n):
     np.random.seed(seed)
     x = np.random.rand(100)
@@ -15,7 +16,18 @@ def get_random_arr(seed, n):
 class RegularizedKmeans(unittest.TestCase):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.arr = np.array([0.01864729, 0.23297427, 0.38786064, 0.56103022, 0.74712164, 0.80063267, 0.8071052, 0.86354185])
+        self.arr = np.array(
+            [
+                0.01864729,
+                0.23297427,
+                0.38786064,
+                0.56103022,
+                0.74712164,
+                0.80063267,
+                0.8071052,
+                0.86354185,
+            ]
+        )
         self.solutions = [
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 1, 1, 1, 1, 1],
@@ -40,15 +52,19 @@ class RegularizedKmeans(unittest.TestCase):
             assert_array_equal(x, x_undone2)
 
     def test_cluster(self):
-        for k, solution in zip(range(1, len(self.arr)+1), self.solutions):
-            for method in ("binary-search-interpolation",
-                            "binary-search-normal",
-                            "dynamic-programming-kn",
-                            "dynamic-programming-space",
-                            "dynamic-programming"):
+        for k, solution in zip(range(1, len(self.arr) + 1), self.solutions):
+            for method in (
+                "binary-search-interpolation",
+                "binary-search-normal",
+                "dynamic-programming-kn",
+                "dynamic-programming-space",
+                "dynamic-programming",
+            ):
                 result = cluster(self.arr.copy(), k, method)
-                np.testing.assert_array_equal(solution, result, f"k={k} method={method}")
+                np.testing.assert_array_equal(
+                    solution, result, f"k={k} method={method}"
+                )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

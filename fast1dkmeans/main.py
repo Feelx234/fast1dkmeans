@@ -16,19 +16,23 @@ def cluster(x, k, method="binary-search-interpolation", **kwargs):
     "Fast Exact k-Means, k-Medians and Bregman Divergence Clustering in 1D"
     """
 
-    assert method in ("binary-search-interpolation",
-                      "binary-search-normal",
-                      "dynamic-programming-kn",
-                      "dynamic-programming-space",
-                      "dynamic-programming"), f"wrong method string provided {method}"
+    assert method in (
+        "binary-search-interpolation",
+        "binary-search-normal",
+        "dynamic-programming-kn",
+        "dynamic-programming-space",
+        "dynamic-programming",
+    ), f"wrong method string provided {method}"
 
     if method == "dynamic-programming":
         method = "dynamic-programming-space"
-    
+
     x = np.squeeze(np.asarray(x))
-    assert len(x.shape)==1, "provided array is not 1d"
+    assert len(x.shape) == 1, "provided array is not 1d"
     assert k > 0, f"negative or zero values for k({k}) are not supported"
-    assert k <= len(x), f"values of k({k}) larger than the length of the provided array ({len(x)}) are not supported"
+    assert k <= len(
+        x
+    ), f"values of k({k}) larger than the length of the provided array ({len(x)}) are not supported"
 
     order = np.argsort(x)
     x = np.array(x, dtype=np.float64)[order]
@@ -41,13 +45,16 @@ def cluster(x, k, method="binary-search-interpolation", **kwargs):
         clusters = cluster_xi(x, k)
     elif method == "dynamic-programming-space":
         clusters = cluster_xi_space(x, k)
+    else:
+        assert False
     return undo_argsort(clusters, order)
-    
+
 
 def undo_argsort(sorted_arr, order):
     revert = np.empty_like(order)
-    revert[order]=np.arange(len(sorted_arr))
+    revert[order] = np.arange(len(sorted_arr))
     return sorted_arr[revert]
+
 
 @njit(cache=True)
 def undo_argsort_numba(sorted_arr, order):
@@ -55,4 +62,3 @@ def undo_argsort_numba(sorted_arr, order):
     for i, val in enumerate(order):
         out[val] = sorted_arr[i]
     return out
-
