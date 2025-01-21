@@ -1,6 +1,10 @@
 import unittest
 import numpy as np
 from fast1dkmeans.kmeans import cluster_xi, cluster_xi_space
+from fast1dkmeans.utils_for_test import (
+    remove_from_class,
+    restore_to_class,
+)  # pylint: disable=wrong-import-position
 
 
 class TestKMeans(unittest.TestCase):
@@ -38,12 +42,6 @@ class TestKMeans(unittest.TestCase):
         for k, solution in zip(range(1, len(self.arr) + 1), self.solutions):
             result = cluster_xi_space(self.arr, k)
             np.testing.assert_array_equal(solution, result, f"k={k}")
-
-
-from fast1dkmeans.utils_for_test import (
-    remove_from_class,
-    restore_to_class,
-)  # pylint: disable=wrong-import-position
 
 
 class TestCommonNonCompiled(TestKMeans):

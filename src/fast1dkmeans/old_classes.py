@@ -1,3 +1,4 @@
+# flake8: noqa
 import numpy as np
 from numba.experimental import jitclass
 from numba import float32, float64, int64

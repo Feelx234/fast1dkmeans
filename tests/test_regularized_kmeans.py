@@ -13,6 +13,10 @@ from fast1dkmeans.regularized_kmeans import (
     conventional_algorithm,
     Wilber,
 )
+from fast1dkmeans.utils_for_test import (
+    remove_from_class,
+    restore_to_class,
+)  # pylint: disable=wrong-import-position
 
 
 class RegularizedBasics(unittest.TestCase):
@@ -147,12 +151,6 @@ class RegularizedKmeansTestRepeated(unittest.TestCase):
 
     def test_wilber(self):
         my_test_algorithm(self, Wilber)
-
-
-from fast1dkmeans.utils_for_test import (
-    remove_from_class,
-    restore_to_class,
-)  # pylint: disable=wrong-import-position
 
 
 class RegularizedKmeanshNonCompiled(RegularizedKmeans):

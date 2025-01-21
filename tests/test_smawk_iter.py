@@ -2,6 +2,10 @@ import unittest
 import numpy as np
 from numpy.testing import assert_array_equal
 from fast1dkmeans.smawk_iter import smawk_iter_array
+from fast1dkmeans.utils_for_test import (
+    remove_from_class,
+    restore_to_class,
+)  # pylint: disable=wrong-import-position
 
 test_arr = np.array(
     [
@@ -22,12 +26,6 @@ class TestSMAWKIter(unittest.TestCase):
     def test_smawk_array_1(self):
         solution = np.argmin(test_arr, axis=1)
         assert_array_equal(solution, smawk_iter_array(test_arr))
-
-
-from fast1dkmeans.utils_for_test import (
-    remove_from_class,
-    restore_to_class,
-)  # pylint: disable=wrong-import-position
 
 
 class TestSMAWKIterNonCompiled(TestSMAWKIter):

@@ -2,6 +2,10 @@ import unittest
 import numpy as np
 from numpy.testing import assert_array_equal
 from fast1dkmeans.smawk import smawk_array
+from fast1dkmeans.utils_for_test import (
+    remove_from_class,
+    restore_to_class,
+)  # pylint: disable=wrong-import-position
 
 test_arr = np.array(
     [
@@ -24,17 +28,11 @@ class TestSMAWK(unittest.TestCase):
         assert_array_equal(solution, smawk_array(test_arr))
 
 
-from fast1dkmeans.utils_for_test import (
-    remove_from_class,
-    restore_to_class,
-)  # pylint: disable=wrong-import-position
-
-
 class TestSMAWKNonCompiled(TestSMAWK):
     def setUp(self):
         self.cleanup = remove_from_class(
             self.__class__.__bases__[0], allowed_packages=["fast1dkmeans"]
-        )  ##
+        )
 
     def tearDown(self) -> None:
         restore_to_class(self.cleanup)

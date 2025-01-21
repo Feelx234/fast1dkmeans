@@ -1,6 +1,10 @@
 import unittest
 import numpy as np
 from fast1dkmeans.common import cost_of_clustering
+from fast1dkmeans.utils_for_test import (
+    remove_from_class,
+    restore_to_class,
+)  # pylint: disable=wrong-import-position
 
 
 class TestCommon(unittest.TestCase):
@@ -12,12 +16,6 @@ class TestCommon(unittest.TestCase):
             ),
             3,
         )
-
-
-from fast1dkmeans.utils_for_test import (
-    remove_from_class,
-    restore_to_class,
-)  # pylint: disable=wrong-import-position
 
 
 class TestCommonNonCompiled(TestCommon):
