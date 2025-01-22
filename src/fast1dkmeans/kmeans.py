@@ -70,8 +70,7 @@ def cluster_xi_space(v, k):
     cost_calculator = CumsumCalculator(v)
     n = len(v)
     D = np.empty((2, n), dtype=np.float64)
-    T = np.empty(n, dtype=np.int64)
-    T[:] = 0
+    optimal_indices = np.zeros(n, dtype=np.int64)
     for j in range(n):
         D[0, j] = cost_calculator.calc(0, j)
     xi_calculator = XiaolinCalculator(
@@ -84,20 +83,28 @@ def cluster_xi_space(v, k):
     D_row = 0
     next_d_row = 0
     for _k in range(1, k + 1):
-        D_row = (_k - 1) % 2
+        D_row = (_k - 1) % 2 # alternate between 'zero' row and 'one' row
+        next_d_row = _k % 2 # alternate between 'zero' row and 'one' row
         xi_calculator.set_d_row(D_row)
-        _smawk_iter(rows, cols, xi_calculator, T)
-        # print(row_argmins)
-        next_d_row = _k % 2
-        for i, argmin in enumerate(T):
+
+        # find new optimal indices
+        _smawk_iter(rows[_k:], cols, xi_calculator, optimal_indices)
+
+        # Compute optimal values from optimal indices
+        for i, argmin in enumerate(optimal_indices):
             min_val = xi_calculator.calc(i, argmin)
             D[next_d_row, i] = min_val
-    # print(k)
+
+    # In principle we have already calculated all the information that we might need
+    # but to save space we have "overwritten" some of it
+    # thus in the following we perform regularized k-means in which the regularization lambda_
+    # is chosen such that the right amount of clusters are returned
     k_plus1_row = next_d_row  # (k+1) % 2
     k_row = D_row  # (k) % 2
     lambda_ = D[k_row, n - 1] - D[k_plus1_row, n - 1]
-    assert lambda_ >= 0
+    assert lambda_ >= 0 # should be non neg as using more clusters should not increase cost
     result = __Wilber(n, xi_calculator.cumsum, xi_calculator.cumsum2, lambda_)
+
     return relabel_clusters(result)
 
 
