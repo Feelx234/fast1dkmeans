@@ -35,13 +35,15 @@ class TestKMeans(unittest.TestCase):
 
     def test_cluster_xi(self):
         for k, solution in zip(range(1, len(self.arr) + 1), self.solutions):
-            result = cluster_xi(self.arr, k)
-            np.testing.assert_array_equal(solution, result, f"k={k}")
+            with self.subTest(k=k):
+                result = cluster_xi(self.arr, k)
+                np.testing.assert_array_equal(solution, result, f"k={k}")
 
     def test_cluster_xi_space(self):
         for k, solution in zip(range(1, len(self.arr) + 1), self.solutions):
-            result = cluster_xi_space(self.arr, k)
-            np.testing.assert_array_equal(solution, result, f"k={k}")
+            with self.subTest(k=k):
+                result = cluster_xi_space(self.arr, k)
+                np.testing.assert_array_equal(solution, result, f"k={k}")
 
 
 class TestCommonNonCompiled(TestKMeans):

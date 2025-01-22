@@ -67,6 +67,8 @@ def cluster_xi_space(v, k):
 
     if k == 1:
         return np.zeros(len(v), dtype=np.int32)
+    if k==len(v):
+        return np.arange(len(v), dtype=np.int32)
     cost_calculator = CumsumCalculator(v)
     n = len(v)
     D = np.empty((2, n), dtype=np.float64)
