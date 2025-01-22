@@ -67,7 +67,7 @@ def cluster_xi_space(v, k):
 
     if k == 1:
         return np.zeros(len(v), dtype=np.int32)
-    if k==len(v):
+    if k == len(v):
         return np.arange(len(v), dtype=np.int32)
     cost_calculator = CumsumCalculator(v)
     n = len(v)
@@ -85,8 +85,8 @@ def cluster_xi_space(v, k):
     D_row = 0
     next_d_row = 0
     for _k in range(1, k + 1):
-        D_row = (_k - 1) % 2 # alternate between 'zero' row and 'one' row
-        next_d_row = _k % 2 # alternate between 'zero' row and 'one' row
+        D_row = (_k - 1) % 2  # alternate between 'zero' row and 'one' row
+        next_d_row = _k % 2  # alternate between 'zero' row and 'one' row
         xi_calculator.set_d_row(D_row)
 
         # find new optimal indices
@@ -104,7 +104,9 @@ def cluster_xi_space(v, k):
     k_plus1_row = next_d_row  # (k+1) % 2
     k_row = D_row  # (k) % 2
     lambda_ = D[k_row, n - 1] - D[k_plus1_row, n - 1]
-    assert lambda_ >= 0 # should be non neg as using more clusters should not increase cost
+    assert (
+        lambda_ >= 0
+    )  # should be non neg as using more clusters should not increase cost
     result = __Wilber(n, xi_calculator.cumsum, xi_calculator.cumsum2, lambda_)
 
     return relabel_clusters(result)
