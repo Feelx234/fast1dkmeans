@@ -41,7 +41,7 @@ def smawk_implicit(m, n, lookup):
     return results
 
 
-@njit()
+@njit
 def interpolate(rows, cols, calculator, result):
     curr = 0
     for i in range(2, len(rows), 2):
@@ -50,11 +50,11 @@ def interpolate(rows, cols, calculator, result):
             stop_col = result[rows[i + 1]]
         else:
             stop_col = cols[len(cols) - 1]
-        while cols[curr] < start_col:
+        while curr < len(cols) - 1 and cols[curr] < start_col:
             curr += 1
         best = curr
         best_val = calculator.calc(rows[i], cols[best])
-        while cols[curr] < stop_col:
+        while curr < len(cols) - 1 and cols[curr] < stop_col:
             tmp = calculator.calc(rows[i], cols[curr + 1])
             if best_val > tmp:
                 best = curr + 1
@@ -64,7 +64,7 @@ def interpolate(rows, cols, calculator, result):
         result[rows[i]] = cols[best]
 
 
-@njit()
+@njit
 def reduce(rows, cols, calculator):
     # https://courses.engr.illinois.edu/cs473/sp2016/notes/06-sparsedynprog.pdf
     m = len(rows)
