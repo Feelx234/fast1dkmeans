@@ -18,12 +18,12 @@ Currently this package implements the following algorithms:
 
 All the methods rely on first sorting the values to be clustered which is omitted in the runtime analysis.
 
-The code is written in Python but all the number crunching is done in compiled code. To achieve this, this project relies on the [numba](https://numba.pydata.org/) compiler for speed.
+All the number crunching is done in compiled Rust code (shared with [microagg1d](https://github.com/Feelx234/microagg1d) via [oned-core](https://github.com/Feelx234/oned-core)). Prebuilt wheels are provided, no compiler or JIT warm-up is needed.
 
 Requirements
 ------------
 
-*fast1dkmeans* relies on `numpy` and `numba` and is tested on python 3.9-3.11.
+*fast1dkmeans* only requires `numpy` and supports python 3.9 and newer. (Versions before 0.2 used `numba`.)
 
 Installation
 ------------

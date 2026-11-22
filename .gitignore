@@ -139,3 +139,8 @@ cython_debug/
 
 
 env
+target/
+__pycache__/
+*.so
+dist/
+.pytest_cache/

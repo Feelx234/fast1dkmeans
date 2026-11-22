@@ -1,7 +1,12 @@
 import numpy as np
-from numba import njit
-from fast1dkmeans.kmeans import cluster_xi, cluster_xi_space
-from fast1dkmeans.regularized_kmeans import binary_search
+
+from fast1dkmeans import _core
+
+
+def undo_argsort(sorted_arr, order):
+    revert = np.empty_like(order)
+    revert[order] = np.arange(len(sorted_arr))
+    return sorted_arr[revert]
 
 
 def cluster(x, k, method="binary-search-interpolation", **kwargs):
@@ -14,6 +19,8 @@ def cluster(x, k, method="binary-search-interpolation", **kwargs):
 
     The sections all refer to Gronlund et. al (2017)
     "Fast Exact k-Means, k-Medians and Bregman Divergence Clustering in 1D"
+
+    The binary search methods accept the keyword arguments `max_iter` and `epsilon`.
     """
 
     assert method in (
@@ -35,30 +42,15 @@ def cluster(x, k, method="binary-search-interpolation", **kwargs):
     ), f"values of k({k}) larger than the length of the provided array ({len(x)}) are not supported"
 
     order = np.argsort(x)
-    x = np.array(x, dtype=np.float64)[order]
+    x_sorted = np.ascontiguousarray(np.asarray(x, dtype=np.float64)[order])
+    k = int(k)
 
     if method == "binary-search-interpolation":
-        clusters = binary_search(x, k, method=1, **kwargs)
+        clusters = _core.binary_search(x_sorted, k, 1, **kwargs)
     elif method == "binary-search-normal":
-        clusters = binary_search(x, k, method=0, **kwargs)
+        clusters = _core.binary_search(x_sorted, k, 0, **kwargs)
     elif method == "dynamic-programming-kn":
-        clusters = cluster_xi(x, k)
-    elif method == "dynamic-programming-space":
-        clusters = cluster_xi_space(x, k)
+        clusters = _core.dynamic_programming_kn(x_sorted, k, **kwargs)
     else:
-        assert False
+        clusters = _core.dynamic_programming_space(x_sorted, k, **kwargs)
     return undo_argsort(clusters, order)
-
-
-def undo_argsort(sorted_arr, order):
-    revert = np.empty_like(order)
-    revert[order] = np.arange(len(sorted_arr))
-    return sorted_arr[revert]
-
-
-@njit(cache=True)
-def undo_argsort_numba(sorted_arr, order):
-    out = np.empty_like(sorted_arr)
-    for i, val in enumerate(order):
-        out[val] = sorted_arr[i]
-    return out
