@@ -12,7 +12,7 @@ name = "_core"
 crate-type = ["cdylib"]
 
 [dependencies]
-oned-core = { git = "https://github.com/Feelx234/oned-core", rev = "aea01486a01bbd3ad7dbd87827f3e3a6b8c948e8" }
+optimal1d = { git = "https://github.com/Feelx234/optimal1d", rev = "078f56a2c0f996e2744c27bbc23e63d4ba404e77" }
 pyo3 = { version = "0.30", features = ["extension-module", "abi3-py39"] }
 numpy = "0.30"
 

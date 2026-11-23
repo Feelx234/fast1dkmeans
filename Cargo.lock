@@ -13,7 +13,7 @@ name = "fast1dkmeans-py"
 version = "0.2.0"
 dependencies = [
  "numpy",
- "oned-core",
+ "optimal1d",
  "pyo3",
 ]
 
@@ -104,9 +104,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 
 [[package]]
-name = "oned-core"
+name = "optimal1d"
 version = "0.1.0"
-source = "git+https://github.com/Feelx234/oned-core?rev=aea01486a01bbd3ad7dbd87827f3e3a6b8c948e8#aea01486a01bbd3ad7dbd87827f3e3a6b8c948e8"
+source = "git+https://github.com/Feelx234/optimal1d?rev=078f56a2c0f996e2744c27bbc23e63d4ba404e77#078f56a2c0f996e2744c27bbc23e63d4ba404e77"
 
 [[package]]
 name = "portable-atomic"

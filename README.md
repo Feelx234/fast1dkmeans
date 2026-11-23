@@ -18,7 +18,7 @@ Currently this package implements the following algorithms:
 
 All the methods rely on first sorting the values to be clustered which is omitted in the runtime analysis.
 
-All the number crunching is done in compiled Rust code (shared with [microagg1d](https://github.com/Feelx234/microagg1d) via [oned-core](https://github.com/Feelx234/oned-core)). Prebuilt wheels are provided, no compiler or JIT warm-up is needed.
+All the number crunching is done in compiled Rust code (shared with [microagg1d](https://github.com/Feelx234/microagg1d) via [optimal1d](https://github.com/Feelx234/optimal1d)). Prebuilt wheels are provided, no compiler or JIT warm-up is needed.
 
 Requirements
 ------------
